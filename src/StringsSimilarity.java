@@ -50,17 +50,19 @@ public class StringsSimilarity {
             List<Integer> withoutPairFirstList = new ArrayList<>();
 
             for (int i = 0; i < firstList.size(); i++) {
-                String firstString = firstList.get(i).trim();
+                String firstString = firstList.get(i);
                 if (isBlank(firstString)) {
                     continue;
                 }
+                firstString = firstString.trim();
                 Double similarity = 0.0;
                 int indJ = -1;
                 for (int j = 0; j < secondList.size(); j++) {
-                    String secondString = secondList.get(j).trim();
+                    String secondString = secondList.get(j);
                     if (isBlank(secondString)) {
                         continue;
                     }
+                    secondString = secondString.trim();
                     SorensenDice sorensenDice = new SorensenDice();
                     double calcSimilarity = sorensenDice.similarity(firstString, secondString);
                     if (calcSimilarity > similarity) {
@@ -110,12 +112,12 @@ public class StringsSimilarity {
             // if withoutPairDiffNum = 0 - not need to put in to resultMap
             if (withoutPairDiffNum > 0) {
                 for (int j = withoutPairFirstList.size() - withoutPairDiffNum; j < withoutPairFirstList.size(); j++) {
-                    //  для 'key' вставляем в 'resultMap' произвольное число < 0 - для него не ищем строку в исходном листе строк
+                    //  for 'key' insert in 'resultMap' random negative number - we are not looking for a String line in the source 'secondList' for it.
                     putInResultMap(withoutPairFirstList.get(j), null, -j - 1);
                 }
             } else if (withoutPairDiffNum < 0) {
                 for (int num : withoutPairSecondList) {
-                    // вставляем в мапу 'key'=null - для него не ищем строку в исходном листе строк
+                    // for 'key' insert 'null' in 'resultMap' - we are not looking for a String line in the source 'firstList' for it.
                     putInResultMap(null, null, num);
                 }
             }
