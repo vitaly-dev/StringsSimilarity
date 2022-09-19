@@ -36,7 +36,8 @@ public class StringsSimilarity {
     private static final Map<Integer, Map<Integer, Double>> resultMap = new LinkedHashMap<>();
     private static final String INPUT_PATH = System.getProperty("user.dir") + "/storage/input.txt";
     private static final String OUTPUT_PATH = System.getProperty("user.dir") + "/storage/output.txt";
-    private static final Double LEVENSHTEIN_INITIAL = 1000.0;
+    private static final double LEVENSHTEIN_INITIAL = 1000.0;
+    private static final double SORENSEN_DICE_INITIAL = 0.0;
 
     private static void createStringPairs() {
         Path inputFile = Paths.get(INPUT_PATH);
@@ -55,7 +56,7 @@ public class StringsSimilarity {
                     continue;
                 }
                 firstString = firstString.trim();
-                Double similarity = 0.0;
+                double similarity = SORENSEN_DICE_INITIAL;
                 int indJ = -1;
                 for (int j = 0; j < secondList.size(); j++) {
                     String secondString = secondList.get(j);
@@ -96,7 +97,7 @@ public class StringsSimilarity {
             int withoutPairDiffNum = withoutPairFirstList.size() - withoutPairSecondList.size();
 
             for (int y = 0; y < withoutPairFirstList.size() && !withoutPairSecondList.isEmpty(); y++) {
-                Double distance = LEVENSHTEIN_INITIAL;
+                double distance = LEVENSHTEIN_INITIAL;
                 int indZ = -1;
                 for (int z = 0; z < withoutPairSecondList.size(); z++) {
                     Levenshtein dist = new Levenshtein();
